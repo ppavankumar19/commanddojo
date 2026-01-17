@@ -1,27 +1,14 @@
-Perfect place to pause 👍
-Below is a **complete, production-quality `README.md`** that documents **everything you’ve built so far** — architecture, tech stack, features, file structure, setup commands, and workflows.
-
-You can **copy-paste this directly** into `README.md` at the project root.
-
----
-
-````md
 # 🥋 CommandDojo
 
-**CommandDojo** is an interactive learning platform to master **Linux, Windows, and Git commands** using:
-- real terminal practice
-- Asciinema demos
-- explanation videos
-- admin-curated lessons
-- progress-ready architecture
+CommandDojo is an interactive educational platform to learn **Linux, Windows, and Git commands** using real terminal practice, Asciinema demos, and explanation videos — all managed through a secure admin dashboard.
 
-Built with modern full-stack technologies and designed for scalability.
+This project is built with modern full-stack technologies and designed to scale.
 
 ---
 
-## 🚀 Features Implemented (Current Status)
+## 🚀 Features (Implemented)
 
-### 👨‍🎓 User Side
+### 👨‍🎓 User Features
 - Browse commands by section:
   - `/linux`
   - `/windows`
@@ -29,36 +16,41 @@ Built with modern full-stack technologies and designed for scalability.
 - Command detail page includes:
   - command description
   - **syntax (required)**
-  - Asciinema terminal demo
-  - practice button (shared terminal)
-  - explanation video (any provider supported)
-- Dedicated **practice terminal** (`/practice`)
-- No stale cache across tabs (always fresh data)
+  - Asciinema terminal recording
+  - “Practice this command” button
+  - explanation video (YouTube, Vimeo, or any URL)
+- Dedicated practice terminal:
+  - `/practice`
+- Always-fresh data across multiple tabs (no stale cache)
 
-### 🛠 Admin Side
-- Secure admin login
+---
+
+### 🛠 Admin Features
+- Secure admin authentication
 - Admin dashboard:
   - create commands
   - edit commands
   - publish/unpublish
 - Required fields enforced:
   - syntax
-  - asciinema URL
+  - Asciinema URL
   - explanation video URL
-- **Live embed preview** while typing:
-  - Asciinema iframe
-  - YouTube / Vimeo embeds
+- Live embed preview while typing:
+  - Asciinema iframe preview
+  - YouTube / Vimeo auto-embed
   - Any other video URL with a fallback link
 - Tags support
 - Lesson steps for guided practice
-- Cache revalidation after save (other tabs update instantly)
+- Automatic cache revalidation after save
 
-### 🔐 Authentication
-- Credentials-based auth using **NextAuth**
+---
+
+### 🔐 Authentication & Roles
+- Credentials-based authentication using **NextAuth**
 - Roles:
   - `ADMIN`
   - `USER`
-- Secure password hashing (bcrypt)
+- Passwords securely hashed using **bcrypt**
 
 ---
 
@@ -69,7 +61,7 @@ Built with modern full-stack technologies and designed for scalability.
 - **React 19**
 - **TypeScript**
 - **Tailwind CSS**
-- **Framer Motion** (animations)
+- **Framer Motion**
 - **Lucide Icons**
 
 ### Backend
@@ -77,9 +69,9 @@ Built with modern full-stack technologies and designed for scalability.
 - **Prisma ORM**
 - **PostgreSQL**
 
-### Auth
-- **NextAuth (Credentials Provider)**
-- bcrypt password hashing
+### Authentication
+- **NextAuth**
+- **bcrypt**
 
 ---
 
@@ -95,37 +87,35 @@ commanddojo/
 │   │       │   └── page.tsx           # Create command
 │   │       └── [id]/
 │   │           ├── page.tsx           # Edit command
-│   │           └── actions.ts         # Update command (server action)
+│   │           └── actions.ts         # Update command
 │   │
 │   ├── api/
 │   │   └── auth/
 │   │       └── [...nextauth]/route.ts
 │   │
 │   ├── linux/
-│   │   ├── page.tsx                  # Linux command list
-│   │   └── [slug]/page.tsx           # Linux command detail
+│   │   ├── page.tsx
+│   │   └── [slug]/page.tsx
 │   │
 │   ├── windows/
 │   ├── git/
 │   ├── practice/
-│   │   └── page.tsx                  # Shared practice terminal
+│   │   └── page.tsx
 │   │
 │   ├── login/
-│   │   └── page.tsx
 │   ├── signup/
-│   │   └── page.tsx
 │   ├── layout.tsx
-│   └── page.tsx                      # Home
+│   └── page.tsx
 │
 ├── components/
 │   ├── admin/
-│   │   ├── EmbedPreview.tsx           # Live iframe preview
+│   │   ├── EmbedPreview.tsx
 │   │   └── CreateCommandForm.tsx
 │   └── TopNav.tsx
 │
 ├── lib/
-│   ├── prisma.ts                      # Prisma client
-│   └── authOptions.ts                 # NextAuth config
+│   ├── prisma.ts
+│   └── authOptions.ts
 │
 ├── prisma/
 │   ├── schema.prisma
@@ -171,27 +161,27 @@ model Section {
 
 ```prisma
 model Command {
-  id                    String   @id @default(cuid())
-  sectionId             String
-  slug                  String
-  title                 String
-  shortSummary           String
-  description            String
-  syntax                 String
-  asciinemaUrl           String
-  explanationVideoUrl    String
-  tags                   Json?
-  lessonSteps            Json?
-  published              Boolean  @default(false)
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
+  id                   String   @id @default(cuid())
+  sectionId            String
+  slug                 String
+  title                String
+  shortSummary          String
+  description           String
+  syntax                String
+  asciinemaUrl          String
+  explanationVideoUrl   String
+  tags                  Json?
+  lessonSteps           Json?
+  published             Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 
   section  Section @relation(fields: [sectionId], references: [id])
   progress Progress[]
 }
 ```
 
-### Progress (Ready for future use)
+### Progress (Prepared for future use)
 
 ```prisma
 model Progress {
@@ -215,7 +205,7 @@ model Progress {
 ### 1️⃣ Clone & Install
 
 ```bash
-git clone <repo-url>
+git clone <your-repo-url>
 cd commanddojo
 npm install
 ```
@@ -225,7 +215,7 @@ npm install
 Create `.env`:
 
 ```env
-DATABASE_URL="postgresql://commanddojo_user:password@localhost:5432/commanddojo"
+DATABASE_URL="postgresql://user:password@localhost:5432/commanddojo"
 NEXTAUTH_SECRET="your-secret"
 NEXTAUTH_URL="http://localhost:3000"
 ```
@@ -237,13 +227,13 @@ npx prisma migrate dev
 npx prisma generate
 ```
 
-### 4️⃣ Seed Admin (optional)
+### 4️⃣ (Optional) Seed Admin
 
 ```bash
-npm run prisma: seed
+npm run prisma:seed
 ```
 
-### 5️⃣ Run Dev Server
+### 5️⃣ Run Development Server
 
 ```bash
 npm run dev
@@ -253,16 +243,18 @@ npm run dev
 
 ## 🔑 Admin Management (CLI)
 
-### View Admins
+### View Admin Users
 
 ```sql
-SELECT email, role FROM "User" WHERE role='ADMIN';
+SELECT email, role FROM "User" WHERE role = 'ADMIN';
 ```
 
 ### Promote User to Admin
 
 ```sql
-UPDATE "User" SET role='ADMIN' WHERE email='you@example.com';
+UPDATE "User"
+SET role = 'ADMIN'
+WHERE email = 'user@example.com';
 ```
 
 ---
@@ -271,46 +263,46 @@ UPDATE "User" SET role='ADMIN' WHERE email='you@example.com';
 
 * All dynamic pages use:
 
-```ts
+``` ts
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 ```
 
-* Server actions call:
+* Admin server actions call:
 
 ``` ts
 revalidatePath(...)
 ```
 
-➡ ensures **no stale data across tabs**
+➡ ensures fresh data across tabs and sessions.
 
 ---
 
-## 🎯 Supported Video Types
+## 🎥 Supported Video Sources
 
 * YouTube
 * Vimeo
-* Direct `.mp4 / .webm`
-* NotebookLM or any external URL
+* Direct video files (`.mp4`, `.webm`)
+* Any external URL (NotebookLM, etc.)
 
   * iframe attempted
-  * fallback “Open video” link always shown
+  * fallback “Open video” link always available
 
 ---
 
 ## 📌 Current Status
 
-✅ MVP complete
-✅ Stable
-✅ Ready for feature expansion
+* ✅ MVP complete
+* ✅ Stable
+* ✅ Ready for expansion
 
 ---
 
-## 🧭 Planned Next Phases (Paused)
+## 🧭 Planned (Paused)
 
 * User progress UI
+* Search & tag filters
 * XP / streaks
-* Search & filters
 * Admin analytics
 * Deployment (Docker / VPS / Vercel)
 
@@ -318,11 +310,12 @@ revalidatePath(...)
 
 ## 👨‍💻 Author
 
-Built with care by **Pavan Kumar**
-Assisted by ChatGPT
+**Pavan Kumar**
 
 ---
 
 ## 🥋 Philosophy
 
-> *Learn commands by doing — not memorising.*
+> Learn commands by doing — not memorising.
+
+```
